@@ -32,46 +32,46 @@ d3.csv('candy.csv', function(data){
         .domain([0, candySums.length])
         .range([100, width-100]);
     var yScale = d3.scale.linear()
-        .domain([d3.min(candySums, series => d3.min(series, d => d.values)),
-                d3.max(candySums, series => d3.max(series, d => d.values))])
-        .range([height- 10, 10])
-
-
+        .domain([0, data.length * 1.2])
+        .range([height- 10, 10]);
 
     var svg = d3.select("#graph")
         .append('svg')
         .attr('width', width)
         .attr('height', height);
 
-    svg.selectAll(".circle1")
+    svg.selectAll(".rect1")
         .data(candySums)
         .enter()
-        .append("circle")
+        .append("rect")
         .attr("stroke", "black")
         .attr("fill", "black")
-        .attr("cx", function (d, i) { return xScale(i); })
-        .attr("cy", function (d) { return yScale(d[0].values) -20; })
-        .attr("r", 5);
-
-    svg.selectAll(".circle2")
+        .attr("x", function (d, i) { return xScale(i) - 5; })
+        .attr("y", function (d) { return yScale(d[0].values) - 10; })
+        .attr("width", 10)
+        .attr("height", function (d) { return height - yScale(d[0].values) - 10; });
+        
+    svg.selectAll(".rect2")
         .data(candySums)
         .enter()
-        .append("circle")
+        .append("rect")
         .attr("stroke", "red")
         .attr("fill", "red")
-        .attr("cx", function (d, i) { return xScale(i); })
-        .attr("cy", function (d) { return yScale(d[1].values) -20; })
-        .attr("r", 5);
+        .attr("x", function (d, i) { return xScale(i) - 5; })
+        .attr("y", function (d) { return yScale(d[1].values + d[0].values) - 10; })
+        .attr("width", 10)
+        .attr("height", function (d) { return height - yScale(d[1].values) - 10; });
 
     svg.selectAll(".circle3")
         .data(candySums)
         .enter()
-        .append("circle")
+        .append("rect")
         .attr("stroke", "green")
         .attr("fill", "green")
-        .attr("cx", function (d, i) { return xScale(i); })
-        .attr("cy", function (d) { return yScale(d[2].values) -20; })
-        .attr("r", 5);
+        .attr("x", function (d, i) { return xScale(i) - 5; })
+        .attr("y", function (d) { return yScale(d[1].values + d[0].values + d[2].values) - 10; })
+        .attr("width", 10)
+        .attr("height", function (d) { return height - yScale(d[2].values) - 10; });
 
     var xAxis = d3.svg.axis().scale(xScale);
     var yAxis = d3.svg.axis().scale(yScale);
