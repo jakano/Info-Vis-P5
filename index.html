@@ -4,18 +4,43 @@
 	<meta charset="UTF-8">
 	<!-- Always include D3 first. -->
 	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="d3-legend.js"></script>
 	<!-- Include script.js, which is where all our code lives -->
 	<script src="script.js"></script>
 	<!-- Include any styles we want to add to our page -->
 	<!-- <link rel="stylesheet" href="styles.css"> -->
+	<style>
+	#graph {
+		padding-left: 50px;
+	}
+
+	.xaxis path {
+		stroke: black;
+		fill:none;
+	}
+
+	.xaxis line {
+		stroke: black;
+	}
+
+	.legend rect {
+		fill:white;
+		stroke:black;
+		opacity:0.8;
+	}
+	
+	</style>
 </head>
 <body>
 	<!-- Our graph will be added inside this divider element -->
 	<div id="graph"></div>
-	<input type="checkbox" id="male" checked> Male
-	<input type="checkbox" id="female" checked> Female
-	<input type="checkbox" id="othergender" checked> Other
-	<br>Minimum age: <input type="number" id="minage" min="0" max="80" step="1" value="0" required>
-	<br>Maximum age: <input type="number" id="maxage" min="0" max="80" step="1" value="80" required>
+	<div id="inputs">
+		<input type="checkbox" id="male" checked> Male
+		<input type="checkbox" id="female" checked> Female
+		<input type="checkbox" id="othergender" checked> Other
+		<br>Minimum age: <input type="number" id="minage" min="0" max="80" step="1" value="0" required>
+		<br>Maximum age: <input type="number" id="maxage" min="0" max="80" step="1" value="80" required>
+		<br>Number of Candies: <input type="number" id="numcandies" min="1" max="48" step="1" value="48" required>
+	</div>
 </body>
 </html>
