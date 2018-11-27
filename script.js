@@ -2,7 +2,7 @@
 // Specify the width and height of our graph
 // as variables so we can use them later.
 // Remember, hardcoding sucks! :)
-var width = 1000;
+var width = 1500;
 var height = 600;
 
 // Here we tell D3 to select the graph that we defined above.
@@ -13,7 +13,7 @@ var height = 600;
 // 
 // So our code now looks like this in the browser:
 // <svg width="700" height="600">
-// </svg>
+
 
 
 d3.csv('candy.csv', function(data){
@@ -30,11 +30,11 @@ d3.csv('candy.csv', function(data){
         .entries(data));
     var xScale = d3.scale.linear()
         .domain([0, candySums.length])
-        .range([100, width+100]);
+        .range([100, width-100]);
     var yScale = d3.scale.linear()
         .domain([d3.min(candySums, series => d3.min(series, d => d.values)),
                 d3.max(candySums, series => d3.max(series, d => d.values))])
-        .range([height, 0])
+        .range([height- 10, 10])
 
 
 
@@ -42,6 +42,7 @@ d3.csv('candy.csv', function(data){
         .append('svg')
         .attr('width', width)
         .attr('height', height);
+
     svg.selectAll(".circle1")
         .data(candySums)
         .enter()
@@ -49,8 +50,9 @@ d3.csv('candy.csv', function(data){
         .attr("stroke", "black")
         .attr("fill", "black")
         .attr("cx", function (d, i) { return xScale(i); })
-        .attr("cy", function (d) { return yScale(d[0].values); })
+        .attr("cy", function (d) { return yScale(d[0].values) -20; })
         .attr("r", 5);
+
     svg.selectAll(".circle2")
         .data(candySums)
         .enter()
@@ -58,8 +60,9 @@ d3.csv('candy.csv', function(data){
         .attr("stroke", "red")
         .attr("fill", "red")
         .attr("cx", function (d, i) { return xScale(i); })
-        .attr("cy", function (d) { return d[1].values; })
+        .attr("cy", function (d) { return yScale(d[1].values) -20; })
         .attr("r", 5);
+
     svg.selectAll(".circle3")
         .data(candySums)
         .enter()
@@ -67,33 +70,20 @@ d3.csv('candy.csv', function(data){
         .attr("stroke", "green")
         .attr("fill", "green")
         .attr("cx", function (d, i) { return xScale(i); })
-        .attr("cy", function (d) { return yScale(d[2].values); })
+        .attr("cy", function (d) { return yScale(d[2].values) -20; })
         .attr("r", 5);
 
     var xAxis = d3.svg.axis().scale(xScale);
     var yAxis = d3.svg.axis().scale(yScale);
+    yAxis.orient("left");
 
 
-    // TODO: Add axes    
     svg.append("g") // create a group node
-    .attr("transform", "translate(0," + (width - 30) + ")")
-    .call(xAxis)
-    .append("text")
-    .attr("class", "label")
-    .attr("x", width - 16)
-    .attr("y", -6)
-    .style("text-anchor", "end")
-    .text("...");
+    .attr("transform", "translate(0," + (height - 20) + ")")
+    .call(xAxis);
   
     // add the Y Axis
     svg.append("g") // create a group node
     .attr("transform", "translate(50, 0)")
-    .call(yAxis2)
-    .append("text")
-    .attr("class", "label")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 6)
-    .attr("dy", ".71em")
-    .style("text-anchor", "end")
-    .text("...");
+    .call(yAxis);
 });
