@@ -29,6 +29,19 @@ d3.csv('candy.csv', function(data){
             allCandies.push(prop);
         }
     }
+    for (var i = 0; i < allCandies.length; i++) {
+        $("#candySelect").append('<option value="'+allCandies[i]+'">'+cleanCandyName(allCandies[i])+'</option>');
+    }
+    $("#candySelect").multipleSelect({
+        filter: true,
+        isOpen: true,
+        keepOpen: true,
+        styler: v => 'font-size:26px',
+        width: '500px',
+        maxHeight: '600'
+    });
+
+    $("#candySelect").multipleSelect("checkAll");
     
 
     var svg = d3.select("#graph")
@@ -45,9 +58,7 @@ d3.csv('candy.csv', function(data){
         var other = d3.select("#othergender").property("checked");
         var minage = parseInt(d3.select("#minage").property("value")) || 0;
         var maxage = parseInt(d3.select("#maxage").property("value")) || 80;
-        var numCandies = parseInt(d3.select("#numcandies").property("value")) || 48;
-
-        var candies = allCandies.slice(0, numCandies);
+        var candies = $("#candySelect").multipleSelect('getSelects');
 
         if (minage > maxage) {
             alert("Please choose a valid age range!");
@@ -122,7 +133,7 @@ d3.csv('candy.csv', function(data){
 
         var xAxis = d3.svg.axis().scale(xScale)
             .ticks(candies.length)
-            .tickFormat((d,i) => i < candies.length ? candies[i].substr(3).replace(/_/g, " ").replace("y s ", "y's ") : "");
+            .tickFormat((d,i) => i < candies.length ? cleanCandyName(candies[i]) : "");
         var yAxis = d3.svg.axis().scale(yScale);
         yAxis.orient("left");
 
@@ -155,3 +166,7 @@ d3.csv('candy.csv', function(data){
     d3.selectAll("input").on("change", update);
 
 });
+
+function cleanCandyName(candy) {
+    return candy.substr(3).replace(/_/g, " ").replace("y s ", "y's ");
+}
