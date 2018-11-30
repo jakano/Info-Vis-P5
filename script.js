@@ -3,10 +3,10 @@
 // as variables so we can use them later.
 // Remember, hardcoding sucks! :)
 
-var margin = {top: 50, right: 100, bottom: 250, left: 50};
+var margin = {top: 50, right: 100, bottom: 250, left: 150};
 
 var width = 1200 - margin.left - margin.right,
-    height = 1000 - margin.top - margin.bottom;
+    height = 900 - margin.top - margin.bottom;
 
 var spacing = .8;
 
@@ -46,7 +46,7 @@ d3.csv('candy.csv', function(data){
     });
 
     $("#candySelect").multipleSelect("checkAll");
-    
+    $(".ms-search input").attr("placeholder", "Search for a candy");
 
     var svg = d3.select("#graph")
         .append('svg')
@@ -90,15 +90,15 @@ d3.csv('candy.csv', function(data){
         .sortKeys(d3.ascending)
         .rollup(v => v.length)
         .entries(filtered));
-        var xScale = d3.scale.linear()
-            .domain([0, candySums.length])
-            .range([50, width]);
+        
         var yScale = d3.scale.linear()
             .domain([0, filtered.length * 1.2])
             .range([height, 0]);
         
-        var barWidth = (width / (candies.length)) * spacing;
-
+        var barWidth = Math.min((width / (candies.length)) * spacing, 100);
+        var xScale = d3.scale.linear()
+            .domain([0, candySums.length])
+            .range([barWidth/2, width + barWidth/2]);
          // Define the var for the tooltip
          var tooltip = d3.select("body").append("div")	
          .attr("class", "tooltip")				
@@ -115,10 +115,10 @@ d3.csv('candy.csv', function(data){
             .attr("width", barWidth)
             .attr("height", function (d) { return height - yScale(d[0].values); })
             .attr("data-legend", "Despair")
-            .attr("class", "candy_bar")
+            .attr("class", "candyBar")
             .on("mouseover", function(d, i) {
                 d3.select(this)
-                    .attr("fill", "orange");
+                    .attr("fill", "#ff6600");
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
@@ -141,8 +141,8 @@ d3.csv('candy.csv', function(data){
             .data(candySums)
             .enter()
             .append("rect")
-            .attr("stroke", "yellow")
-            .attr("fill", "yellow")
+            .attr("stroke", "#ffcc00")
+            .attr("fill", "#ffcc00")
             .attr("x", function (d, i) { return xScale(i) - barWidth/2; })
             .attr("y", function (d) { return yScale(d[2].values + d[0].values); })
             .attr("width", barWidth)
@@ -151,7 +151,7 @@ d3.csv('candy.csv', function(data){
             .attr("class", "candyBar")
             .on("mouseover", function(d, i) {
                 d3.select(this)
-                    .attr("fill", "orange");
+                    .attr("fill", "#ff6600");
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
@@ -163,7 +163,7 @@ d3.csv('candy.csv', function(data){
                 d3.select(this)
 		   		    .transition()
                     .duration(250)
-                    .attr("fill", "yellow");
+                    .attr("fill", "#ffcc00");
                 tooltip.transition()		
                     .duration(500)		
                     .style("opacity", 0);	
@@ -174,8 +174,8 @@ d3.csv('candy.csv', function(data){
             .data(candySums)
             .enter()
             .append("rect")
-            .attr("stroke", "green")
-            .attr("fill", "green")
+            .attr("stroke", "#006600")
+            .attr("fill", "#006600")
             .attr("x", function (d, i) { return xScale(i) - barWidth/2; })
             .attr("y", function (d) { return yScale(d[1].values + d[0].values + d[2].values); })
             .attr("width", barWidth)
@@ -184,7 +184,7 @@ d3.csv('candy.csv', function(data){
             .attr("class", "candyBar")
             .on("mouseover", function(d, i) {
                 d3.select(this)
-                    .attr("fill", "orange");
+                    .attr("fill", "#ff6600");
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
@@ -196,7 +196,7 @@ d3.csv('candy.csv', function(data){
                 d3.select(this)
 		   		    .transition()
                     .duration(250)
-                    .attr("fill", "green");
+                    .attr("fill", "#006600");
                 tooltip.transition()		
                     .duration(500)		
                     .style("opacity", 0);	
@@ -223,12 +223,11 @@ d3.csv('candy.csv', function(data){
     
         // add the Y Axis
         svg.append("g") // create a group node
-        .attr("transform", "translate("+(50 - barWidth/2)+",0)")
         .call(yAxis);
 
         var legend = svg.append("g")
         .attr("class","legend")
-        .attr("transform","translate("+(width - 100)+",30)")
+        .attr("transform","translate("+(width - 100)+",0)")
         .style("font-size","30px")
         .call(d3.legend);
         
@@ -243,7 +242,7 @@ d3.csv('candy.csv', function(data){
 
         var yAxisttitle = svg.append("text")
             .attr("text-anchor", "middle")
-            .attr("transform", "translate(" + (0 - barWidth/2) + "," +(height/2)+")rotate(-90)")
+            .attr("transform", "translate(-50," +(height/2)+")rotate(-90)")
             .attr("font-size", axis_font_size)
             .text("Number Of Reviewers");
 
