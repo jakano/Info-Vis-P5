@@ -10,6 +10,10 @@ var width = 1500 - margin.left - margin.right,
 
 var spacing = 10;
 
+var despair = 0;
+var joy = 1;
+var meh = 2;
+
 // Here we tell D3 to select the graph that we defined above.
 // Then, we add an <svg></svg> tag inside the graph.
 // On the <svg> element, we set the width and height.
@@ -105,7 +109,28 @@ d3.csv('candy.csv', function(data){
             .attr("y", function (d) { return yScale(d[0].values); })
             .attr("width", barWidth)
             .attr("height", function (d) { return height - yScale(d[0].values); })
-            .attr("data-legend", "Despair");
+            .attr("data-legend", "Despair")
+            .attr("class", "candy_bar")
+            .on("mouseover", function(d) {
+                d3.select(this)
+                    .attr("fill", "orange");
+                tooltip.transition()		
+                    .duration(200)		
+                    .style("opacity", .9);		
+                tooltip	.html(tootltipMessage(despair, d))	
+                    .style("left", (d3.event.pageX) + "px")		
+                    .style("top", (d3.event.pageY - 28) + "px");	
+            })
+            .on("mouseout", function(d) {
+                d3.select(this)
+		   		    .transition()
+                    .duration(250)
+                    .attr("fill", "black");
+                tooltip.transition()		
+                    .duration(500)		
+                    .style("opacity", 0);	
+                
+            });
             
         svg.selectAll(".rect2")
             .data(candySums)
@@ -117,7 +142,28 @@ d3.csv('candy.csv', function(data){
             .attr("y", function (d) { return yScale(d[2].values + d[0].values); })
             .attr("width", barWidth)
             .attr("height", function (d) { return height - yScale(d[2].values); })
-            .attr("data-legend", "Meh");
+            .attr("data-legend", "Meh")
+            .attr("class", "candyBar")
+            .on("mouseover", function(d) {
+                d3.select(this)
+                    .attr("fill", "orange");
+                tooltip.transition()		
+                    .duration(200)		
+                    .style("opacity", .9);		
+                tooltip	.html(tootltipMessage(meh, d))	
+                    .style("left", (d3.event.pageX) + "px")		
+                    .style("top", (d3.event.pageY - 28) + "px");	
+            })
+            .on("mouseout", function(d) {
+                d3.select(this)
+		   		    .transition()
+                    .duration(250)
+                    .attr("fill", "red");
+                tooltip.transition()		
+                    .duration(500)		
+                    .style("opacity", 0);	
+                
+            });
     
         svg.selectAll(".rect3")
             .data(candySums)
@@ -129,7 +175,28 @@ d3.csv('candy.csv', function(data){
             .attr("y", function (d) { return yScale(d[1].values + d[0].values + d[2].values); })
             .attr("width", barWidth)
             .attr("height", function (d) { return height - yScale(d[1].values); })
-            .attr("data-legend", "Joy");
+            .attr("data-legend", "Joy")
+            .attr("class", "candyBar")
+            .on("mouseover", function(d) {
+                d3.select(this)
+                    .attr("fill", "orange");
+                tooltip.transition()		
+                    .duration(200)		
+                    .style("opacity", .9);		
+                tooltip	.html(tootltipMessage(joy, d))	
+                    .style("left", (d3.event.pageX) + "px")		
+                    .style("top", (d3.event.pageY - 28) + "px");	
+            })
+            .on("mouseout", function(d) {
+                d3.select(this)
+		   		    .transition()
+                    .duration(250)
+                    .attr("fill", "green");
+                tooltip.transition()		
+                    .duration(500)		
+                    .style("opacity", 0);	
+                
+            });
 
         var xAxis = d3.svg.axis().scale(xScale)
             .ticks(candies.length)
@@ -159,6 +226,19 @@ d3.csv('candy.csv', function(data){
         .attr("transform","translate("+(width - 100)+",30)")
         .style("font-size","30px")
         .call(d3.legend);
+
+        // Define the var for the tooltip
+        var tooltip = d3.select("body").append("div")	
+        .attr("class", "tooltip")				
+        .style("opacity", 0);
+
+       function tootltipMessage(type, data) {
+           var joy_text = type == joy ? "<span class=highlighted>Joy: " + data[joy].values + "</span>" : "Joy: " + data[joy].values;
+           var meh_text = type == meh ? "<span class=highlighted>Meh: " + data[meh].values + "</span>" : "Meh: " + data[meh].values;
+           var despair_text = type == despair ? "<span class=highlighted>Despair: " + data[despair].values + "</span>" : "Despair: " + data[despair].values;
+
+           return joy_text.toString() + "<br/>" + meh_text.toString() + "<br/>" + despair_text.toString() + "<br/>";
+       } 
 
     }
 
