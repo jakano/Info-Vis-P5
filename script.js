@@ -243,7 +243,7 @@ d3.csv('candy.csv', function(data){
 
         var yAxisttitle = svg.append("text")
             .attr("text-anchor", "middle")
-            .attr("transform", "translate(" + 0 + "," +(height/2)+")rotate(-90)")
+            .attr("transform", "translate(" + (0 - barWidth/2) + "," +(height/2)+")rotate(-90)")
             .attr("font-size", axis_font_size)
             .text("Number Of Reviewers");
 
@@ -251,7 +251,7 @@ d3.csv('candy.csv', function(data){
             .attr("text-anchor", "middle")
             .attr("transform", "translate(" + (width/2) + "," + 15 +")")
             .attr("font-size", title_font_size)
-            .text("Candy Opinions");
+            .text("Candy Survey Opinions");
 
        
 
