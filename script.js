@@ -97,7 +97,12 @@ d3.csv('candy.csv', function(data){
             .domain([0, filtered.length * 1.2])
             .range([height, 0]);
         
-         var barWidth = (width / (candies.length)) * spacing;
+        var barWidth = (width / (candies.length)) * spacing;
+
+         // Define the var for the tooltip
+         var tooltip = d3.select("body").append("div")	
+         .attr("class", "tooltip")				
+         .style("opacity", 0);
 
         svg.selectAll(".rect1")
             .data(candySums)
@@ -117,7 +122,7 @@ d3.csv('candy.csv', function(data){
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
-                tooltip	.html(tootltipMessage(despair, d, i))	
+                tooltip.html(tootltipMessage(despair, d, i))	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");	
             })
@@ -226,11 +231,29 @@ d3.csv('candy.csv', function(data){
         .attr("transform","translate("+(width - 100)+",30)")
         .style("font-size","30px")
         .call(d3.legend);
+        
+        var axis_font_size = "24";
+        var title_font_size = "32";
 
-        // Define the var for the tooltip
-        var tooltip = d3.select("body").append("div")	
-        .attr("class", "tooltip")				
-        .style("opacity", 0);
+        var xAxisTitle = svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate(" + (width/2) + "," + 900 + ")")
+            .attr("font-size", axis_font_size)
+            .text("Candy");
+
+        var yAxisttitle = svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate(" + 0 + "," +(height/2)+")rotate(-90)")
+            .attr("font-size", axis_font_size)
+            .text("Number Of Reviewers");
+
+        var title = svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate(" + (width/2) + "," + 15 +")")
+            .attr("font-size", title_font_size)
+            .text("Candy Opinions");
+
+       
 
        function tootltipMessage(type, data, i) {
             var joy_text = type == joy ? "<span class=highlighted>Joy: " + data[joy].values + "</span>" : "Joy: " + data[joy].values;
