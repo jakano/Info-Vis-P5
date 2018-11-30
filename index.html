@@ -52,7 +52,7 @@
 		padding: 2px;				
 		font: 12px sans-serif;		
 		background: black;
-		color: aliceblue;	
+		color: rgb(211, 205, 205);	
 		border: 0px;		
 		border-radius: 8px;			
 		pointer-events: none;			
@@ -60,6 +60,11 @@
 
 	.highlighted {
 		color: cyan;
+	}
+
+	.tooltip-header {
+		color: white;
+		text-decoration: underline;
 	}
 	
 	</style>
@@ -69,17 +74,18 @@
 	<div style="width:100%">
 		<div id="graph"></div>
 		<div class="rightpane">
+				<div id="inputs">
+						<input type="checkbox" id="male" checked> Male
+						<input type="checkbox" id="female" checked> Female
+						<input type="checkbox" id="othergender" checked> Other
+						<br>Minimum age: <input type="number" id="minage" min="0" max="80" step="1" value="0" required>
+						<br>Maximum age: <input type="number" id="maxage" min="0" max="80" step="1" value="80" required>
+					</div>
 			<h1>Candy Selection</h1>
 			<select multiple="multiple" id="candySelect"></select>
 		</div>
 	</div>
-	<div id="inputs">
-		<input type="checkbox" id="male" checked> Male
-		<input type="checkbox" id="female" checked> Female
-		<input type="checkbox" id="othergender" checked> Other
-		<br>Minimum age: <input type="number" id="minage" min="0" max="80" step="1" value="0" required>
-		<br>Maximum age: <input type="number" id="maxage" min="0" max="80" step="1" value="80" required>
-	</div>
+	
 	<div id="tooltip" display="none" style="position: absolute; display: none;"></div>
 </body>
 </html>

@@ -5,10 +5,10 @@
 
 var margin = {top: 50, right: 100, bottom: 250, left: 50};
 
-var width = 1500 - margin.left - margin.right,
+var width = 1200 - margin.left - margin.right,
     height = 1000 - margin.top - margin.bottom;
 
-var spacing = 10;
+var spacing = .8;
 
 var despair = 0;
 var joy = 1;
@@ -94,16 +94,16 @@ d3.csv('candy.csv', function(data){
             .domain([0, candySums.length])
             .range([50, width]);
         var yScale = d3.scale.linear()
-            .domain([0, data.length * 1.2])
+            .domain([0, filtered.length * 1.2])
             .range([height, 0]);
         
-         var barWidth = width / (candies.length + spacing);
+         var barWidth = (width / (candies.length)) * spacing;
 
         svg.selectAll(".rect1")
             .data(candySums)
             .enter()
             .append("rect")
-            .attr("stroke", "black")
+            .attr("stroke", "red")
             .attr("fill", "red")
             .attr("x", function (d, i) { return xScale(i) - barWidth/2; })
             .attr("y", function (d) { return yScale(d[0].values); })
@@ -236,7 +236,7 @@ d3.csv('candy.csv', function(data){
             var joy_text = type == joy ? "<span class=highlighted>Joy: " + data[joy].values + "</span>" : "Joy: " + data[joy].values;
             var meh_text = type == meh ? "<span class=highlighted>Meh: " + data[meh].values + "</span>" : "Meh: " + data[meh].values;
             var despair_text = type == despair ? "<span class=highlighted>Despair: " + data[despair].values + "</span>" : "Despair: " + data[despair].values;
-            var tooltip_title = "<strong>" + cleanCandyName(candies[i]) + "</strong>" ;
+            var tooltip_title = "<span class=tooltip-header>" + cleanCandyName(candies[i]) + " Ratings" + "</span>" ;
             return tooltip_title + "<br/>" + joy_text.toString() + "<br/>" + meh_text.toString() + "<br/>" + despair_text.toString() + "<br/>";
        } 
 
