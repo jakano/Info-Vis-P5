@@ -104,20 +104,20 @@ d3.csv('candy.csv', function(data){
             .enter()
             .append("rect")
             .attr("stroke", "black")
-            .attr("fill", "black")
+            .attr("fill", "red")
             .attr("x", function (d, i) { return xScale(i) - barWidth/2; })
             .attr("y", function (d) { return yScale(d[0].values); })
             .attr("width", barWidth)
             .attr("height", function (d) { return height - yScale(d[0].values); })
             .attr("data-legend", "Despair")
             .attr("class", "candy_bar")
-            .on("mouseover", function(d) {
+            .on("mouseover", function(d, i) {
                 d3.select(this)
                     .attr("fill", "orange");
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
-                tooltip	.html(tootltipMessage(despair, d))	
+                tooltip	.html(tootltipMessage(despair, d, i))	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");	
             })
@@ -125,7 +125,7 @@ d3.csv('candy.csv', function(data){
                 d3.select(this)
 		   		    .transition()
                     .duration(250)
-                    .attr("fill", "black");
+                    .attr("fill", "red");
                 tooltip.transition()		
                     .duration(500)		
                     .style("opacity", 0);	
@@ -136,21 +136,21 @@ d3.csv('candy.csv', function(data){
             .data(candySums)
             .enter()
             .append("rect")
-            .attr("stroke", "red")
-            .attr("fill", "red")
+            .attr("stroke", "yellow")
+            .attr("fill", "yellow")
             .attr("x", function (d, i) { return xScale(i) - barWidth/2; })
             .attr("y", function (d) { return yScale(d[2].values + d[0].values); })
             .attr("width", barWidth)
             .attr("height", function (d) { return height - yScale(d[2].values); })
             .attr("data-legend", "Meh")
             .attr("class", "candyBar")
-            .on("mouseover", function(d) {
+            .on("mouseover", function(d, i) {
                 d3.select(this)
                     .attr("fill", "orange");
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
-                tooltip	.html(tootltipMessage(meh, d))	
+                tooltip	.html(tootltipMessage(meh, d, i))	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");	
             })
@@ -158,7 +158,7 @@ d3.csv('candy.csv', function(data){
                 d3.select(this)
 		   		    .transition()
                     .duration(250)
-                    .attr("fill", "red");
+                    .attr("fill", "yellow");
                 tooltip.transition()		
                     .duration(500)		
                     .style("opacity", 0);	
@@ -177,13 +177,13 @@ d3.csv('candy.csv', function(data){
             .attr("height", function (d) { return height - yScale(d[1].values); })
             .attr("data-legend", "Joy")
             .attr("class", "candyBar")
-            .on("mouseover", function(d) {
+            .on("mouseover", function(d, i) {
                 d3.select(this)
                     .attr("fill", "orange");
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
-                tooltip	.html(tootltipMessage(joy, d))	
+                tooltip	.html(tootltipMessage(joy, d, i))	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");	
             })
@@ -232,12 +232,12 @@ d3.csv('candy.csv', function(data){
         .attr("class", "tooltip")				
         .style("opacity", 0);
 
-       function tootltipMessage(type, data) {
-           var joy_text = type == joy ? "<span class=highlighted>Joy: " + data[joy].values + "</span>" : "Joy: " + data[joy].values;
-           var meh_text = type == meh ? "<span class=highlighted>Meh: " + data[meh].values + "</span>" : "Meh: " + data[meh].values;
-           var despair_text = type == despair ? "<span class=highlighted>Despair: " + data[despair].values + "</span>" : "Despair: " + data[despair].values;
-
-           return joy_text.toString() + "<br/>" + meh_text.toString() + "<br/>" + despair_text.toString() + "<br/>";
+       function tootltipMessage(type, data, i) {
+            var joy_text = type == joy ? "<span class=highlighted>Joy: " + data[joy].values + "</span>" : "Joy: " + data[joy].values;
+            var meh_text = type == meh ? "<span class=highlighted>Meh: " + data[meh].values + "</span>" : "Meh: " + data[meh].values;
+            var despair_text = type == despair ? "<span class=highlighted>Despair: " + data[despair].values + "</span>" : "Despair: " + data[despair].values;
+            var tooltip_title = "<strong>" + cleanCandyName(candies[i]) + "</strong>" ;
+            return tooltip_title + "<br/>" + joy_text.toString() + "<br/>" + meh_text.toString() + "<br/>" + despair_text.toString() + "<br/>";
        } 
 
     }
