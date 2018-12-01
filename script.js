@@ -227,8 +227,8 @@ d3.csv('candy.csv', function(data){
 
         var legend = svg.append("g")
         .attr("class","legend")
-        .attr("transform","translate("+(width - 100)+",0)")
-        .style("font-size","30px")
+        .attr("transform","translate("+(width - 100)+",30)")
+        .style("font-size","20px")
         .call(d3.legend);
         
         var axis_font_size = "24";
@@ -236,7 +236,7 @@ d3.csv('candy.csv', function(data){
 
         var xAxisTitle = svg.append("text")
             .attr("text-anchor", "middle")
-            .attr("transform", "translate(" + (width/2) + "," + 900 + ")")
+            .attr("transform", "translate(" + (width/2) + "," + 800 + ")")
             .attr("font-size", axis_font_size)
             .text("Candy");
 
@@ -251,6 +251,12 @@ d3.csv('candy.csv', function(data){
             .attr("transform", "translate(" + (width/2) + "," + 15 +")")
             .attr("font-size", title_font_size)
             .text("Candy Survey Opinions");
+        
+        var legendtitle = svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate(" + (width- 65) + "," + -10 +")")
+            .attr("font-size", axis_font_size)
+            .text("Legend");
 
        
 
