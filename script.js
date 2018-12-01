@@ -104,6 +104,8 @@ d3.csv('candy.csv', function(data){
          .attr("class", "tooltip")				
          .style("opacity", 0);
 
+        var highlight_color = "#ffaa0c";
+
         svg.selectAll(".rect1")
             .data(candySums)
             .enter()
@@ -118,7 +120,7 @@ d3.csv('candy.csv', function(data){
             .attr("class", "candyBar")
             .on("mouseover", function(d, i) {
                 d3.select(this)
-                    .attr("fill", "#ff6600");
+                    .attr("fill", highlight_color);
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
@@ -141,8 +143,8 @@ d3.csv('candy.csv', function(data){
             .data(candySums)
             .enter()
             .append("rect")
-            .attr("stroke", "#ffcc00")
-            .attr("fill", "#ffcc00")
+            .attr("stroke", "#ffee0c")
+            .attr("fill", "#ffee0c")
             .attr("x", function (d, i) { return xScale(i) - barWidth/2; })
             .attr("y", function (d) { return yScale(d[2].values + d[0].values); })
             .attr("width", barWidth)
@@ -151,7 +153,7 @@ d3.csv('candy.csv', function(data){
             .attr("class", "candyBar")
             .on("mouseover", function(d, i) {
                 d3.select(this)
-                    .attr("fill", "#ff6600");
+                    .attr("fill", highlight_color);
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
@@ -163,7 +165,7 @@ d3.csv('candy.csv', function(data){
                 d3.select(this)
 		   		    .transition()
                     .duration(250)
-                    .attr("fill", "#ffcc00");
+                    .attr("fill", "#ffee0c");
                 tooltip.transition()		
                     .duration(500)		
                     .style("opacity", 0);	
@@ -184,7 +186,7 @@ d3.csv('candy.csv', function(data){
             .attr("class", "candyBar")
             .on("mouseover", function(d, i) {
                 d3.select(this)
-                    .attr("fill", "#ff6600");
+                    .attr("fill", highlight_color);
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
@@ -264,8 +266,10 @@ d3.csv('candy.csv', function(data){
             var joy_text = type == joy ? "<span class=highlighted>Joy: " + data[joy].values + "</span>" : "Joy: " + data[joy].values;
             var meh_text = type == meh ? "<span class=highlighted>Meh: " + data[meh].values + "</span>" : "Meh: " + data[meh].values;
             var despair_text = type == despair ? "<span class=highlighted>Despair: " + data[despair].values + "</span>" : "Despair: " + data[despair].values;
+            var total = data[joy].values + data[meh].values + data[despair].values;
             var tooltip_title = "<span class=tooltip-header>" + cleanCandyName(candies[i]) + " Ratings" + "</span>" ;
-            return tooltip_title + "<br/>" + joy_text.toString() + "<br/>" + meh_text.toString() + "<br/>" + despair_text.toString() + "<br/>";
+            var tooltip_total = "Total Ratings: " + total;
+            return tooltip_title + "<br/>" + joy_text.toString() + "<br/>" + meh_text.toString() + "<br/>" + despair_text.toString() + "<br/>" + tooltip_total;
        } 
 
     }
